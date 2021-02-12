@@ -1,0 +1,172 @@
+#Create a Customer API in API Manager
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: customer-api # example: orders-api
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api
+spec:
+  clusterServiceClassExternalName: anypoint-platform-api-instance
+  clusterServicePlanExternalName: service-mesh
+  parameters:
+    environmentId: <yourenvironmentid> # Sandbox example: 7cea45c6-3237-464d-bd34-3122c4abde29
+    groupId: <yourgroupid> # Org ID example: 350b8164-e809-4091-91f5-079fb30e5a1e
+    assetId: customer-api # example: orders-api
+    version: 1.0.0 # example: 0.0.1
+    instanceLabel: public # example: public
+    tags:
+      apiSpec:
+      - customer # example: orders
+      apiInstance:
+      - customer # example: orders
+  parametersFrom: # The element specifies the secret name and configuration required for retrieving the parameters.
+    - secretKeyRef:
+        name: mythical-api-config # example: orders-api-config
+        key: config
+---
+#Create binding between Customer API and Customer Service (microservice)
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  # name will be used as resulting secret name if no secretName is specified under the spec section
+  name: customer-api-binding # example: orders-api-binding
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api-binding
+spec:
+  instanceRef:
+    name: customer-api # example: orders-api
+  parameters:
+    adapter: asm-adapter # example: bookinfo-service-mesh-adapter
+    service: customer-service # example: orders-service
+---
+#Create a Inventory API in API Manager
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: inventory-api # example: orders-api
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api
+spec:
+  clusterServiceClassExternalName: anypoint-platform-api-instance
+  clusterServicePlanExternalName: service-mesh
+  parameters:
+    environmentId: <yourenvironmentid> # Sandbox example: 7cea45c6-3237-464d-bd34-3122c4abde29
+    groupId: <yourgroupid> # Org ID example: 350b8164-e809-4091-91f5-079fb30e5a1e
+    assetId: inventory-api # example: orders-api
+    version: 1.0.0 # example: 0.0.1
+    instanceLabel: public # example: public
+    tags:
+      apiSpec:
+      - inventory # example: orders
+      apiInstance:
+      - inventory # example: orders
+  parametersFrom: # The element specifies the secret name and configuration required for retrieving the parameters.
+    - secretKeyRef:
+        name: mythical-api-config # example: orders-api-config
+        key: config
+---
+#Create binding between Inventory API and Inventory Service (microservice)
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  # name will be used as resulting secret name if no secretName is specified under the spec section
+  name: inventory-api-binding # example: orders-api-binding
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api-binding
+spec:
+  instanceRef:
+    name: inventory-api # example: orders-api
+  parameters:
+    adapter: asm-adapter # example: bookinfo-service-mesh-adapter
+    service: inventory-service # example: orders-service
+---
+#Create a Orders API in API Manager
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: orders-api # example: orders-api
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api
+spec:
+  clusterServiceClassExternalName: anypoint-platform-api-instance
+  clusterServicePlanExternalName: service-mesh
+  parameters:
+    environmentId: <yourenvironmentid> # Sandbox example: 7cea45c6-3237-464d-bd34-3122c4abde29
+    groupId: <yourgroupid> # Org ID example: 350b8164-e809-4091-91f5-079fb30e5a1e
+    assetId: order-api # example: orders-api
+    version: 1.0.0 # example: 0.0.1
+    instanceLabel: public # example: public
+    tags:
+      apiSpec:
+      - orders # example: orders
+      apiInstance:
+      - orders # example: orders
+  parametersFrom: # The element specifies the secret name and configuration required for retrieving the parameters.
+    - secretKeyRef:
+        name: mythical-api-config # example: orders-api-config
+        key: config
+---
+#Create binding between Orders API and Order Service (microservice)
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  # name will be used as resulting secret name if no secretName is specified under the spec section
+  name: orders-api-binding # example: orders-api-binding
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api-binding
+spec:
+  instanceRef:
+    name: orders-api # example: orders-api
+  parameters:
+    adapter: asm-adapter # example: bookinfo-service-mesh-adapter
+    service: order-service # example: orders-service
+---
+#Create a Payments API in API Manager
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: payments-api # example: orders-api
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api
+spec:
+  clusterServiceClassExternalName: anypoint-platform-api-instance
+  clusterServicePlanExternalName: service-mesh
+  parameters:
+    environmentId: <yourenvironmentid> # Sandbox example: 7cea45c6-3237-464d-bd34-3122c4abde29
+    groupId: <yourgroupid> # Org ID example: 350b8164-e809-4091-91f5-079fb30e5a1e
+    assetId: payment-api # example: orders-api
+    version: 1.0.0 # example: 0.0.1
+    instanceLabel: public # example: public
+    tags:
+      apiSpec:
+      - payments # example: orders
+      apiInstance:
+      - payments # example: orders
+  parametersFrom: # The element specifies the secret name and configuration required for retrieving the parameters.
+    - secretKeyRef:
+        name: mythical-api-config # example: orders-api-config
+        key: config
+---
+#Create binding between Payments API and Payment Service (microservice)
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  # name will be used as resulting secret name if no secretName is specified under the spec section
+  name: payments-api-binding # example: orders-api-binding
+  namespace: mythical-retail # example: default
+  labels:
+    service-mesh.mulesoft.com/kind: api-binding
+spec:
+  instanceRef:
+    name: payments-api # example: orders-api
+  parameters:
+    adapter: asm-adapter # example: bookinfo-service-mesh-adapter
+    service: payment-service # example: orders-service
+---

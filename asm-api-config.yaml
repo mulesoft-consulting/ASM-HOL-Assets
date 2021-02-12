@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mythical-retail-secret # example: orders-api-config
+  namespace: mythical-retail # example: default
+type: Opaque
+stringData:
+  config: |
+    {
+      "user": "<youranypointusername>",
+      "password": "<youranypointpassword>"
+    }
